@@ -7,11 +7,10 @@ export default function handleProfileSignup(firstName, lastName, fileName) {
 
   return Promise.allSettled([userPromise, photoPromise]).then((results) => {
     return results.map((result) => {
-      if (result.status === 'fulfilled') {
-        return { status: 'fulfilled', value: result.value };
-      } else {
-        return { status: 'rejected', value: result.reason };
-      }
+      return {
+        status: result.status,
+        value: result.status === 'fulfilled' ? result.value : result.reason,
+      };
     });
   });
 }
