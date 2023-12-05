@@ -1,5 +1,6 @@
 export default class Airport {
   constructor(name, code) {
+    if (typeof name !== 'string' || typeof code !== 'string') throw new Error();
     this._name = name;
     this._code = code;
   }
@@ -20,7 +21,11 @@ export default class Airport {
     this._code = newCode;
   }
 
-  toString() {
-    return `[${this._code}] { _name: '${this._name}', _code: '${this._code}' }`;
+  get [Symbol.toStringTag]() {
+    return this.code;
   }
+
+  // toString() {
+  // return `[${this._code}] { _name: '${this._name}', _code: '${this._code}' }`;
+  // }
 }
