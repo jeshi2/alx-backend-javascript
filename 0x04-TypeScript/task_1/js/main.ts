@@ -1,22 +1,26 @@
-type Teacher = {
-    readonly firstName: string;
-    readonly lastName: string;
-    fullTimeEmployee: boolean;
-    yearsOfExperience?: number;
-    readonly location: string;
-    [key: string]: any; // Allows adding any other attribute dynamically
-  };
-  
-  const createTeacher = (teacher: Teacher): Teacher => {
-    return teacher;
-  };
-  
-  const teacher3: Teacher = {
-    firstName: 'John',
-    lastName: 'Doe',
-    fullTimeEmployee: false,
-    location: 'London',
-    contract: false,
-  };
-  
-console.log(createTeacher(teacher3));
+interface Teacher {
+  readonly firstName: string;
+  readonly lastName: string;
+  fullTimeEmployee: boolean;
+  yearsOfExperience?: number;
+  readonly location: string;
+  [key: string]: any; 
+}
+
+interface Directors extends Teacher {
+  numberOfReports: number;
+}
+
+const createDirector = (director: Directors): Directors => {
+  return director;
+};
+
+const director1: Directors = {
+  firstName: 'John',
+  lastName: 'Doe',
+  fullTimeEmployee: true,
+  location: 'London',
+  numberOfReports: 17,
+};
+
+console.log(createDirector(director1));
