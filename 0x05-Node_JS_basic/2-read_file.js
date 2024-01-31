@@ -1,15 +1,15 @@
 const fs = require('fs');
 
-function countStudents(path) {
+function countStudents (path) {
   try {
     const fileContent = fs.readFileSync(path, 'utf-8');
     const lines = fileContent.split('\n').filter(line => line.trim() !== '');
 
     // Skip the header line
-    const header = lines.shift();
+    lines.shift();
 
     const students = lines.map(line => {
-      const [firstname, lastname, age, field] = line.split(',');
+      const [firstname, , , field] = line.split(',');
       return { firstname, field };
     });
 
@@ -25,7 +25,7 @@ function countStudents(path) {
       } else {
         fields[field] = {
           count: 1,
-          list: [firstname],
+          list: [firstname]
         };
       }
     });
