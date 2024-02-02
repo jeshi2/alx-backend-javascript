@@ -3,12 +3,10 @@ const { expect } = require('chai');
 const server = require('./api');
 
 describe('Index page', () => {
-  // Ensure server is running before the tests
-  before(() => {
-    // Increase the timeout for starting the server
+  before(function (done) {
     this.timeout(5000);
-    // Start the server
     server;
+    done();
   });
 
   it('Correct status code?', (done) => {
@@ -20,19 +18,16 @@ describe('Index page', () => {
 
   it('Correct result?', (done) => {
     request('http://localhost:7865', (error, response, body) => {
-      expect(body).to.equal('Welcome to the payment system');
+      expect(body).to.equal('Welcome to the payment system\n');
       done();
     });
   });
 
-  it('Other?', (done) => {
-    // Additional test if needed
-    // ...
-    done();
-  });
-
-  // Ensure the server is closed after the tests
-  after(() => {
-    server.close();
+  after(function (done) {
+    if (server && server.close) {
+      server.close(done);
+    } else {
+      done();
+    }
   });
 });
