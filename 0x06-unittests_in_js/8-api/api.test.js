@@ -1,30 +1,38 @@
-const { expect } = require('chai');
 const request = require('request');
-
-const app = require('./api');
+const { expect } = require('chai');
+const server = require('./api');
 
 describe('Index page', () => {
+  // Ensure server is running before the tests
+  before(() => {
+    // Increase the timeout for starting the server
+    this.timeout(5000);
+    // Start the server
+    server;
+  });
+
   it('Correct status code?', (done) => {
-    request.get('http://localhost:7865', (error, response) => {
+    request('http://localhost:7865', (error, response, body) => {
       expect(response.statusCode).to.equal(200);
       done();
     });
   });
 
   it('Correct result?', (done) => {
-    request.get('http://localhost:7865', (error, response, body) => {
+    request('http://localhost:7865', (error, response, body) => {
       expect(body).to.equal('Welcome to the payment system');
       done();
     });
   });
 
   it('Other?', (done) => {
-    // Add other tests if needed
+    // Additional test if needed
+    // ...
     done();
   });
 
+  // Ensure the server is closed after the tests
   after(() => {
-    // Cleanup after all tests in this suite
-    app.close();
+    server.close();
   });
 });
