@@ -1,43 +1,36 @@
 const express = require('express');
+
 const app = express();
-const port = 7865;
+const PORT = 7865;
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   res.send('Welcome to the payment system');
 });
 
 app.get('/cart/:id(\\d+)', (req, res) => {
-  const cartId = req.params.id;
-  res.status(200).send(`Payment methods for cart ${cartId}`);
+  const id = req.params.id;
+
+  res.send(`Payment methods for cart ${id}`);
 });
 
-app.get('/available_payments', (req, res) => {
-  const paymentMethods = {
-    payment_methods: {
-      credit_cards: true,
-      paypal: false
-    }
-  };
-  res.status(200).json(paymentMethods);
+app.get('/available_payments', (_req, res) => {
+  res.json({ payment_methods: { credit_cards: true, paypal: false } });
 });
 
 app.post('/login', (req, res) => {
-  const { userName } = req.body;
-  res.status(200).send(`Welcome ${userName}`);
-});
+  let username = '';
 
-app.use((err, req, res, next) => {
-  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
-    res.status(400).send('Invalid JSON');
-  } else {
-    next();
+  if (req.body) {
+    username = req.body.userName;
   }
+
+  res.send(`Welcome ${username}`);
 });
 
-const server = app.listen(port, () => {
-  console.log(`API available on localhost port ${port}`);
+app.listen(PORT, () => {
+  console.log(`API available on localhost port ${PORT}`);
 });
 
-module.exports = server;
+module.exports = app;
